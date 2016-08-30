@@ -3,3 +3,6 @@
 
 # Don't commit LocalSettings.php, it contains passwords and such
 LocalSettings.php
+
+# Don't reveal location of temporary phpinfo's.
+phpinfo.php
