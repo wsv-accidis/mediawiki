@@ -1,2 +1,5 @@
 # Download vendor folder from appropriate release
 /vendor
+
+# Don't commit LocalSettings.php, it contains passwords and such
+LocalSettings.php
