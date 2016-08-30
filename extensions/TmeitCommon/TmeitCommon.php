@@ -40,3 +40,6 @@ $wgResourceModules['ext.tmeit.styles'] = array(
     'remoteBasePath' => "$wgScriptPath/extensions/TmeitCommon",
     'localBasePath' => "$IP/extensions/TmeitCommon"
 );
+
+// Private configuration settings that don't go into source control
+require( $dir.'TmeitCommon.private.php' );
