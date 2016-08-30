@@ -6,3 +6,6 @@ LocalSettings.php
 
 # Don't reveal location of temporary phpinfo's.
 phpinfo.php
+
+# Development environment
+/.idea
