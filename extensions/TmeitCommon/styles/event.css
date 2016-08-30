@@ -1,0 +1,145 @@
+/*
+ * Events
+ */
+
+td.tmeit-event-past {
+	color: darkgray !important;
+}
+
+th.tmeit-event-action-column {
+    width: 105px;
+}
+
+th.tmeit-event-lunch-column {
+    width: 200px;
+}
+
+textarea#tmeit-event-body-box {
+	width: 100%;
+	height: 150px;
+}
+
+td.tmeit-event-work-select-column {
+    text-align: center;
+    width: 65px;
+}
+
+textarea#tmeit-event-work-comments {
+	height: 60px;
+	width: 100%;
+}
+
+td.tmeit-event-worker-comments {
+	color: silver;
+	font-size: 10pt;
+}
+
+input.tmeit-event-report-comments {
+	width: 99%;
+}
+
+p.tmeit-event-info span {
+	font-size: 110%;
+	font-weight: bold;
+	font-style: italic;
+	margin-bottom: 10px;
+}
+
+p.tmeit-event-report-info span {
+	font-weight: bold;
+}
+
+p.tmeit-event-report-save {
+	margin-left: 29px;
+	margin-top: 5px;
+	margin-bottom: 10px;
+}
+
+p.tmeit-event-report-save span {
+	margin-left: 10px;
+	color: red;
+	font-style: italic;
+}
+
+p.tmeit-event-report-save input {
+	width: 120px;
+}
+
+/*
+ * Columns
+ */
+
+td.tmeit-event-work-selected {
+    font-weight: bold;
+    background: navy;
+}
+
+th.tmeit-event-worker-name-column {
+    width: 270px;
+}
+
+th.tmeit-event-worker-phone-column {
+    width: 170px;
+}
+
+th.tmeit-event-worker-email-column {
+    width: 200px;
+}
+
+th.tmeit-event-worker-group-column {
+    width: 100px;
+}
+
+th.tmeit-event-worker-team-column {
+    width: 100px;
+}
+
+th.tmeit-event-worker-work-column {
+	width: 110px;
+}
+
+th.tmeit-event-worker-comment-column {
+	width: 90px;
+}
+
+td.tmeit-event-worker-comment-column img {
+	cursor: pointer;
+}
+
+/*
+ * Timeline
+ */
+
+.tmeit-event-worker-timeline {
+    white-space: nowrap;
+    text-align: right;
+}
+
+.tmeit-event-slider-description {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.tmeit-event-slider-description span {
+    font-size: 120%;
+}
+
+.tmeit-event-slider-description span.field-hint {
+    font-size: 80%;
+}
+
+#tmeit-event-slider-container {
+    padding: 10px 20px;
+}
+
+#tmeit-event-slider {
+    width: 100%;
+}
+
+#tmeit-event-slider-container .ui-slider {
+    background: black;
+}
+
+#tmeit-event-slider-container .ui-slider-range {
+    background: navy;
+}

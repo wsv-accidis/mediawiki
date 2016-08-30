@@ -1,0 +1,497 @@
+/*
+ * Global
+ */
+
+p.tmeit-post-script {
+	margin-top: 20px;
+}
+
+td.spacer {
+	height: 5px;
+}
+
+/*
+ * Table widths
+ */
+
+table.tmeit-third-width {
+	width: 33%;
+}
+
+table.tmeit-half-width {
+	width: 55%;
+}
+
+table.tmeit-twothird-width {
+	width: 70%;
+}
+
+table.tmeit-fourfifth-width {
+	width: 80%;
+}
+
+table.tmeit-full-width {
+	width: 100%;
+}
+
+/*
+ * Table layouts (old style)
+ */
+
+table.tmeit-table {
+	font-size: 9pt;
+}
+
+table.tmeit-table .longer-text {
+	width: 400px;
+}
+
+table.tmeit-table .long-text {
+	width: 300px;
+}
+
+table.tmeit-table .medium-text {
+	width: 200px;
+}
+
+table.tmeit-table .short-text {
+	width: 120px;
+}
+
+table.tmeit-table .shorter-text {
+	width: 80px;
+}
+
+table.tmeit-table .tiny-text {
+	width: 40px;
+}
+
+table.tmeit-table td.action-column {
+	width: 100px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+table.tmeit-table td.action-column-wide {
+	width: 170px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+table.tmeit-table td.icon-column {
+	text-align: center;
+}
+
+table.tmeit-table td.icon-column img {
+	padding-top: 2px;
+}
+
+table.tmeit-table td.main-column {
+	font-weight: bold;
+}
+
+table.tmeit-table .nowrap-column {
+	white-space: nowrap;
+}
+
+table.tmeit-table td.caption-column {
+	width: 120px;
+}
+
+table.tmeit-table td.option-column {
+	text-align: center;
+	vertical-align: middle;
+	width: 50px;
+}
+
+table.tmeit-table td.large-caption-column {
+	font-size: 12pt;
+}
+
+/*
+ * Form fields (old style)
+ */
+
+table.tmeit-table td.field-column input[type='checkbox'] {
+	height: 20px;
+	vertical-align: middle;
+}
+
+table.tmeit-table td.field-column textarea {
+	font-family: ms shell dlg, arial, helvetica, sans-serif;
+	font-size: 10pt;
+}
+
+table.tmeit-table input[type='submit'], table.tmeit-table input[type='button'] {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+td.image-list-column {
+    padding-right: 15px;
+}
+
+/*
+ * Menu layout
+ */
+
+ul#tmeit-toc {
+    background: none repeat scroll 0 0 transparent;
+    font-size: 95%;
+    margin-bottom: 10px;
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+}
+
+#tmeit-toc li {
+    display: inline;
+    list-style-type: none;
+    padding-right: 2em;
+}
+
+/*
+ * Events
+ */
+
+table.tmeit-event th {
+	color: #ccc;
+	padding-right: 10px;
+	padding-bottom: 2px;
+}
+
+table.tmeit-event td {
+	padding-bottom: 2px;
+	font-weight: bold;
+}
+
+table.tmeit-table td.past-event {
+	color: darkgray;
+}
+
+div#tmeit-event-current {
+	float: right;
+	margin-right: 20px;
+	padding: 10px;
+	width: 450px;
+}
+
+div#tmeit-event-current.loaded {
+	border: 1px solid silver;
+}
+
+div#tmeit-event-current h2 {
+	padding-top: 0;
+}
+
+div#tmeit-event-list ul {
+	margin-top: 5px;
+}
+
+/*
+ * MemberImage page
+ */
+
+#tmeit-uploaded-image {
+	border: 2px solid white;
+}
+
+#tmeit-uploaded-image-form div {
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
+
+#tmeit-uploaded-image-form input[type=submit] {
+	width: 80px;
+}
+
+div.tmeit-member-image-link {
+    text-align: center;
+}
+
+div.tmeit-member-image-list {
+	margin-bottom: 20px;
+}
+
+div.tmeit-member-image-list ul {
+	margin-bottom: 10px;
+	margin-top: 5px;
+}
+
+div.tmeit-member-image-list p.tmeit-important-note {
+	font-size: 120%;
+	margin-bottom: 20px;
+}
+
+div.tmeit-member-image-list img {
+	width: 110px;
+	height: 120px;
+}
+
+div.tmeit-member-image-list img.tmeit-member-image {
+	padding: 1px;
+	border: 1px solid black;
+}
+
+div.tmeit-member-image-list img.tmeit-member-image-new {
+	border: 2px solid yellow;
+}
+
+div.tmeit-member-image-list img.tmeit-member-image-really-new {
+	border: 2px solid red;
+}
+
+/*
+ * MemberList page
+ */
+table.tmeit-member-list tr {
+	height: 27px;
+}
+
+/*
+ * Members page
+ */
+h2.tmeit-member-header {
+	text-align: center;
+	margin-bottom: 20px;
+}
+
+img.tmeit-member-face {
+	border: 1px solid black;
+	width: 110px;
+	height: 120px;
+}
+
+img.tmeit-master {
+	box-shadow: 0px 0px 14px black;
+}
+
+img.tmeit-marskalk {
+	box-shadow: 0px 0px 14px #222;
+}
+
+img.tmeit-prao {
+	box-shadow: 0px 0px 14px #444;
+}
+
+img.tmeit-vraq {
+	box-shadow: 0px 0px 14px #888;
+}
+
+div.tmeit-member-name a {
+	text-decoration: none !important;
+}
+
+div.tmeit-member-top {
+	width: 45%;
+	float: left;
+	text-align: left;
+	margin-left: 34px;
+	margin-bottom: 30px;
+}
+
+div.tmeit-member-top img.tmeit-member-face, div.tmeit-member-bottom img.tmeit-member-face {
+	float: left;
+}
+
+div.tmeit-member-top div.tmeit-member-name, div.tmeit-member-bottom div.tmeit-member-name {
+	font-size: 14pt;
+	font-weight: bold;
+	margin-left: 130px;
+}
+
+div.tmeit-member-top div.tmeit-member-title, div.tmeit-member-bottom div.tmeit-member-title {
+	font-size: 12pt;
+	margin-left: 130px;
+}
+
+div.tmeit-member-top div.tmeit-member-details {
+	margin-top: 5px;
+	margin-left: 130px;
+}
+
+div.tmeit-member-normal {
+	display: inline-block;
+	margin-bottom: 20px;
+	text-align: center;
+	vertical-align: top;
+	width: 176px;
+}
+
+div.tmeit-member-normal div.tmeit-member-name {
+	font-weight: bold;
+	text-align: center;
+}
+
+div.tmeit-member-normal div.tmeit-member-title {
+	color: #aaa;
+}
+
+div.tmeit-member-bottom {
+	width: 45%;
+	float: left;
+	text-align: left;
+	margin-left: 34px;
+	margin-bottom: 20px;
+	min-height: 220px;
+}
+
+div.tmeit-member-bottom div.tmeit-member-details {
+	margin-top: 15px;
+	margin-left: 130px;
+	color: #aaa;
+}
+
+div.tmeit-member-bottom div.tmeit-member-list {
+	float: right;
+	margin-top: 15px;
+	margin-right: 50px;
+    width: 350px;
+}
+
+div.tmeit-member-bottom div.tmeit-member-list ul {
+	list-style-type: square;
+}
+
+div.tmeit-member-split {
+	clear: both;
+}
+
+span.tmeit-member-exp-score {
+	margin-right: 5px;
+	font-style: italic;
+	color: silver;
+}
+
+div.tmeit-member-exp {
+	margin-top: 5px;
+	display: flex;
+    align-items: center;
+}
+
+div.tmeit-member-exp-center {
+	justify-content: center;
+}
+
+div.tmeit-member-exp-left {
+	margin-left: 130px;
+}
+
+/*
+ * Member page
+ */
+table.tmeit-member-table {
+	border: 0;
+	width: 33%;
+}
+
+table.tmeit-member-table td {
+	border: 0;
+}
+
+table.tmeit-member-table td.value-column {
+	font-weight: bold;
+}
+
+table.tmeit-new-member-info-table {
+    border: 0;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+table.tmeit-new-member-info-table td {
+    border: 0;
+}
+
+table.tmeit-new-member-info-table td.tmeit-new-member-info {
+    padding-left: 10px;
+}
+
+table.tmeit-new-member-info-table td.tmeit-new-member-info span {
+    color: red;
+    font-weight: bold;
+}
+
+div.tmeit-member-titles {
+	margin-left: 10px;
+	margin-bottom: 15px;
+}
+
+div.tmeit-member-old-titles {
+	margin-top: 10px;
+	color: white;
+}
+
+div.tmeit-member-faces {
+	float: right;
+	text-align: right;
+	width: 500px;
+}
+
+img.tmeit-self {
+	margin: 10px;
+	box-shadow: 0px 0px 14px #fff;
+}
+
+/*
+ * Experience page
+ */
+span.tmeit-explain-exp-span {
+	font-size: 150%;
+	font-weight: bold;
+	font-style: italic;
+}
+
+span.tmeit-explain-league-span {
+	font-size: 120%;
+	font-weight: bold;
+	font-style: italic;
+	color: silver;
+}
+
+span.tmeit-explain-next-league-span {
+	font-size: 110%;
+	font-style: italic;
+	color: silver;
+}
+
+table.tmeit-explain-badges-table {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+td.tmeit-explain-badge-column {
+	text-align: center;
+}
+
+table.tmeit-explain-points-table {
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+td.tmeit-explain-points-outer-text {
+	font-weight: bold;
+}
+
+td.tmeit-explain-points-outer-points {
+	white-space: nowrap;
+	text-align: right;
+	font-weight: bold;
+}
+
+td.tmeit-explain-points-inner-text {
+	font-size: 10pt;
+	padding-left: 30px !important;
+}
+
+td.tmeit-explain-points-inner-points {
+	white-space: nowrap;
+	text-align: right;
+	font-size: 10pt;
+}
+
+p.tmeit-explain-note {
+	color: silver;
+	font-style: italic;
+	font-size: 9pt;
+}

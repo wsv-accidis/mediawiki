@@ -1,0 +1,208 @@
+/*
+ * General text styles
+ */
+
+p.tmeit-important-note {
+	color: red;
+}
+
+.tmeit-style-shadowed {
+	text-shadow: 2px 2px 4px #000000;
+}
+
+.tmeit-color-pinka {
+	color: #EC9DC4;
+}
+
+.tmeit-color-dashing {
+	color: #9EDBF9;
+}
+
+.tmeit-color-unicorn {
+	color: #D19FE3;
+}
+
+.tmeit-links-header {
+	margin-top: 20px;
+}
+
+.tmeit-center {
+    text-align: center;
+}
+
+p.tmeit-form-saved {
+	color: lightgreen;
+	background: url("../images/ok.png") no-repeat 0 8px;
+	padding-left: 28px;
+}
+
+/*
+ * New table layouts
+ */
+
+table.tmeit-new-table {
+	font-size: 12pt;
+	border-spacing: 2px;
+	margin-left: -2px;
+}
+
+table.tmeit-table-spacing {
+	margin-top: 10px;
+	margin-bottom: 20px;
+}
+
+table.tmeit-new-table td {
+	padding: 6px 8px;
+}
+
+table.tmeit-new-table tbody tr:nth-child(odd) {
+   background-color: rgba(0,0,0,0.50);
+}
+
+table.tmeit-new-table tbody tr:nth-child(even) {
+   background-color: rgba(0,0,64,0.50);
+}
+
+table.tmeit-new-table tbody.tmeit-pairwise-zebra tr:nth-child(4n),
+table.tmeit-new-table tbody.tmeit-pairwise-zebra tr:nth-child(4n-1) {
+   background-color: rgba(0,0,64,0.50);
+}
+
+table.tmeit-new-table tbody.tmeit-pairwise-zebra tr:nth-child(4n-2),
+table.tmeit-new-table tbody.tmeit-pairwise-zebra tr:nth-child(4n-3) {
+   background-color: rgba(0,0,0,0.50);
+}
+
+table.tmeit-new-table td.action-column {
+	padding: 0 4px;
+	width: 0;
+	text-align: center;
+	white-space: nowrap;
+}
+
+table.tmeit-new-table td.action-column a {
+	margin-left: 5px;
+}
+
+table.tmeit-new-table td.action-column a:first-child {
+	margin-left: 0;
+}
+
+table.tmeit-new-table td.action-column img {
+	vertical-align: middle;
+}
+
+table.tmeit-new-table td.icon-column img {
+	margin: -10px 3px -8px 0;
+	vertical-align: middle;
+}
+
+/*
+ * Column styles
+ */
+
+table.tmeit-new-table td.nowrap-column {
+	white-space: nowrap;
+}
+
+table.tmeit-new-table td.topalign-column {
+	vertical-align: top;
+}
+
+/*
+ * Form fields
+ */
+
+table.tmeit-new-table input, table.tmeit-new-table textarea, table.tmeit-new-table select {
+	font-family: trebuchet ms, arial, helvetica, sans-serif;
+	background: #202020;
+	border: 1px solid white;
+	color: white;
+	font-size: 12pt;
+	margin: -6px 0;
+	padding: 2px;
+}
+
+table.tmeit-new-table input[type='submit'], table.tmeit-new-table input[type='button'] {
+	background: #000064;
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
+input.tmeit-field {
+	font-family: trebuchet ms, arial, helvetica, sans-serif;
+	background: #202020;
+	border: 1px solid white;
+	color: white;
+	font-size: 12pt;
+	padding: 2px;
+}
+
+input.tmeit-button {
+	background: #000064;
+	border: 1px solid white;
+	color: white;
+	font-family: trebuchet ms, arial, helvetica, sans-serif;
+	font-size: 12pt;
+	padding: 2px 10px;
+}
+
+table.tmeit-new-table input[type='checkbox'] {
+	height: 20px;
+	vertical-align: middle;
+	width: 16px;
+}
+
+table.tmeit-new-table input[type='radio'] {
+	height: 20px;
+	vertical-align: middle;
+	width: 16px;
+}
+
+table.tmeit-new-table textarea {
+	margin-top: 0 !important;
+}
+
+table.tmeit-new-table .longer-text {
+	width: 450px;
+}
+
+table.tmeit-new-table .long-text {
+	width: 300px;
+}
+
+table.tmeit-new-table .medium-text {
+	width: 200px;
+}
+
+table.tmeit-new-table .short-text {
+	width: 120px;
+}
+
+table.tmeit-new-table .shorter-text {
+	width: 60px;
+}
+
+table.tmeit-new-table .field-hint {
+	color: darkgray;
+	font-style: italic;
+	margin-left: 10px;
+}
+
+table.tmeit-new-table .field-hint-below {
+	color: darkgray;
+	font-style: italic;
+	margin-top: 10px;
+}
+
+/*
+ * Naked table
+ */
+
+table.tmeit-naked-table {
+	border: 0 !important;
+}
+
+table.tmeit-naked-table td, table.tmeit-naked-table th {
+	border: 0 !important;
+}

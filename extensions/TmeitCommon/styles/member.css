@@ -1,0 +1,50 @@
+/*
+ * Member edit page
+ */
+
+#tmeit-member-init-box span {
+	color: gray;
+}
+
+#tmeit-member-init-box .working {
+	color: red;
+}
+
+#tmeit-member-init-box .done {
+	color: green;
+}
+
+textarea#tmeit-old-titles-box {
+	width: 300px;
+	height: 100px;
+}
+
+span.tmeit-member-is-team-admin {
+    margin-left: 10px;
+}
+
+td.tmeit-member-caption-column {
+	width: 140px;
+}
+
+form.tmeit-member-qrcode-form {
+    background: red;
+    margin-top: 10px;
+    padding: 10px;
+}
+
+form.tmeit-member-qrcode-form input[type='button'] {
+    margin-left: 20px;
+}
+
+div#tmeit-qrcode {
+    background: white;
+    margin-top: 10px;
+    padding: 20px;
+    width: 256px;
+}
+
+input#tmeit-qrcode-field {
+    margin-top: 10px;
+    width: 600px;
+}
