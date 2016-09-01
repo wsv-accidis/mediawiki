@@ -53,19 +53,11 @@ $GLOBALS['wgSamlRequirement'] = SAML_OPTIONAL;
 $GLOBALS['wgSamlCreateUser'] = false;
 $GLOBALS['wgSamlConfirmMail'] = false;
 
-$GLOBALS['wgSamlAuthSource'] = 'default-sp';
-$GLOBALS['wgSamlSspRoot'] = rtrim( __DIR__, DIRECTORY_SEPARATOR )
-			   . DIRECTORY_SEPARATOR
-			   . 'simplesamlphp'
-			   . DIRECTORY_SEPARATOR;
+$GLOBALS['wgSamlAuthSource'] = 'kth';
+$GLOBALS['wgSamlSspRoot'] = '../../simplesamlphp';
 $GLOBALS['wgSamlPostLogoutRedirect'] = null;
 
-$GLOBALS['wgSamlGroupMap'] = array(
-	'sysop' => array(
-		'groups' => array( 'admin' ),
-	),
-);
-
-$GLOBALS['wgSamlUsernameAttr'] = 'uid';
-$GLOBALS['wgSamlRealnameAttr'] = 'cn';
-$GLOBALS['wgSamlMailAttr'] = 'mail';
+$GLOBALS['wgSamlGroupMap'] = array();
+$GLOBALS['wgSamlUsernameAttr'] = 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6';
+$GLOBALS['wgSamlRealnameAttr'] = 'urn:oid:2.16.840.1.113730.3.1.241';
+$GLOBALS['wgSamlMailAttr'] = 'urn:oid:0.9.2342.19200300.100.1.3';
