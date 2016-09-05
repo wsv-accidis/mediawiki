@@ -873,7 +873,11 @@ td.diff-addedline {
 	color: #efefef;
 }
 
-/* notifications */
+.loginText .mw-secure {
+	display: none;
+}
+
+	/* notifications */
 #sidebar_notifications li.tmeit-notification {
     background: url('images/green-bullet.gif?abc') left 8px no-repeat;
 }

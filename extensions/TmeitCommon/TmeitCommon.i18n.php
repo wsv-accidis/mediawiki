@@ -8,7 +8,7 @@
 $messages = array();
 
 $messages['en'] = array(
-    'tmeitnotificationsbox' => 'What\'s new',
+	'tmeitnotificationsbox' => 'What\'s new',
 	'tmeitcommon-short' => 'TMEIT Common',
 	'tmeitcommon-desc' => 'Extension specific to TMEIT.',
 
@@ -16,7 +16,7 @@ $messages['en'] = array(
 );
 
 $messages['sv'] = array(
-    'tmeitnotificationbox' => 'Nytt på internsidorna',
+	'tmeitnotificationbox' => 'Nytt på internsidorna',
 	'tmeitcommon-short' => 'TMEIT Delat',
 	'tmeitcommon-desc' => 'TMEIT-specifikt tillägg.',
 
