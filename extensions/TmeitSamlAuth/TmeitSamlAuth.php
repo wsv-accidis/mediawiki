@@ -34,6 +34,7 @@ $wgAutoloadClasses['TmeitSamlAuth'] = $dir.'TmeitSamlAuth.class.php';
 $wgAutoloadClasses['TmeitSamlSessionProvider'] = $dir.'TmeitSamlSessionProvider.php';
 
 $wgHooks['UserLoginForm'][] = 'TmeitSamlAuth::hookUserLoginForm';
+$wgHooks['PersonalUrls'][] = 'TmeitSamlAuth::hookPersonalUrls';
 
 $wgSamlSimpleSAMLphpPath = $IP.'/../../simplesamlphp';
 $wgSamlEntity = 'kth';

@@ -8,11 +8,15 @@
 $messages = array();
 
 $messages['en'] = array(
-	'tmeitcommon-short' => 'TMEIT SAML Auth',
-	'tmeitcommon-desc' => 'SAML authentication for TMEIT.'
+	'tmeitloginsaml' => 'Log in (kth-id)',
+
+	'tmeitsamlauth-short' => 'TMEIT SAML Auth',
+	'tmeitsamlauth-desc' => 'SAML authentication for TMEIT.'
 );
 
 $messages['sv'] = array(
-	'tmeitcommon-short' => 'TMEIT SAML Auth',
-	'tmeitcommon-desc' => 'SAML-autentisering för TMEIT.'
+	'tmeitloginsaml' => 'Logga in (kth-id)',
+
+	'tmeitsamlauth-short' => 'TMEIT SAML Auth',
+	'tmeitsamlauth-desc' => 'SAML-autentisering för TMEIT.'
 );

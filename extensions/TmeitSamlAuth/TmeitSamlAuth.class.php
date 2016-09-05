@@ -30,14 +30,38 @@ class TmeitSamlAuth
 	 */
 	public static function hookUserLoginForm( &$template )
 	{
-		self::initialize();
-
-		$returnUrl = Title::newMainPage()->getFullURL();
-		$loginUrl = self::$auth->getLoginURL( $returnUrl );
+		$loginUrl = self::getLoginUrl();
 
 		global $wgStylePath;
 		$template->set( 'header', '<a href="'.$loginUrl.'"><img id="kth-login-link" src="'.$wgStylePath.'/tmeit/images/loggain.png" /></a>' );
+		return true;
+	}
+
+	public static function hookPersonalUrls( &$personal_urls )
+	{
+		if( isset( $personal_urls['login'] ) )
+		{
+			// Ensure regular login link is https
+			$loginUrl = $personal_urls['login'];
+			global $wgServer;
+			$loginHref = $wgServer.$loginUrl['href'];
+			$personal_urls['login']['href'] = $loginHref;
+
+			// Add SAML login link
+			$loginUrl = self::getLoginUrl();
+			$personal_urls['login_saml'] = array(
+				'text' => wfMessage( 'tmeitloginsaml' ),
+				'href' => $loginUrl
+			);
+		}
 
 		return true;
+	}
+
+	private static function getLoginUrl()
+	{
+		self::initialize();
+		$returnUrl = Title::newMainPage()->getFullURL();
+		return self::$auth->getLoginURL( $returnUrl );
 	}
 }
