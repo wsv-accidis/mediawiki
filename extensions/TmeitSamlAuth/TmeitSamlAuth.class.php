@@ -25,18 +25,9 @@ class TmeitSamlAuth
 	}
 
 	/**
-	 * @param $template QuickTemplate
+	 * @param array $personal_urls
 	 * @return bool
 	 */
-	public static function hookUserLoginForm( &$template )
-	{
-		$loginUrl = self::getLoginUrl();
-
-		global $wgStylePath;
-		$template->set( 'header', '<a href="'.$loginUrl.'"><img id="kth-login-link" src="'.$wgStylePath.'/tmeit/images/loggain.png" /></a>' );
-		return true;
-	}
-
 	public static function hookPersonalUrls( &$personal_urls )
 	{
 		if( isset( $personal_urls['login'] ) )
@@ -58,10 +49,35 @@ class TmeitSamlAuth
 		return true;
 	}
 
-	private static function getLoginUrl()
+	/**
+	 * @param $template QuickTemplate
+	 * @return bool
+	 */
+	public static function hookUserLoginForm( &$template )
+	{
+		$loginUrl = self::getLoginUrl();
+
+		global $wgStylePath;
+		$template->set( 'header', '<a href="'.$loginUrl.'"><img id="kth-login-link" src="'.$wgStylePath.'/tmeit/images/loggain.png" /></a>' );
+		return true;
+	}
+
+	/**
+	 * @param $returnTo string
+	 * @return string
+	 */
+	public static function getLoginUrl( $returnTo = '' )
 	{
 		self::initialize();
-		$returnUrl = Title::newMainPage()->getFullURL();
+
+		if( '' != $returnTo )
+		{
+			$target = Title::newFromText( $returnTo );
+			$returnUrl = $target->getFullURL();
+		}
+		else
+			$returnUrl = Title::newMainPage()->getFullURL();
+
 		return self::$auth->getLoginURL( $returnUrl );
 	}
 }

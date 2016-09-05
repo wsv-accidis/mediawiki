@@ -124,7 +124,7 @@ abstract class TmeitSpecialPage extends SpecialPage
 		return preg_match( '/^[0-2]*[0-9]:[0-5][0-9]$/', $time );
 	}
 
-		protected function redirectToSpecial( $specialPageName, $urlSuffix = '' )
+	protected function redirectToSpecial( $specialPageName, $urlSuffix = '' )
 	{
 		global $wgOut;
 		$url = SpecialPage::getTitleFor( $specialPageName )->getFullURL();

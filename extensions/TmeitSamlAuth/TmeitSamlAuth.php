@@ -30,11 +30,14 @@ $dir = dirname( __FILE__ ).'/';
 
 $wgExtensionMessagesFiles['TmeitSamlAuth'] = $dir.'TmeitSamlAuth.i18n.php';
 
+$wgAutoloadClasses['SpecialSamlAuth'] = $dir.'SpecialSamlAuth.php';
 $wgAutoloadClasses['TmeitSamlAuth'] = $dir.'TmeitSamlAuth.class.php';
 $wgAutoloadClasses['TmeitSamlSessionProvider'] = $dir.'TmeitSamlSessionProvider.php';
 
-$wgHooks['UserLoginForm'][] = 'TmeitSamlAuth::hookUserLoginForm';
+$wgSpecialPages['SAMLAuth'] = 'SpecialSamlAuth';
+
 $wgHooks['PersonalUrls'][] = 'TmeitSamlAuth::hookPersonalUrls';
+$wgHooks['UserLoginForm'][] = 'TmeitSamlAuth::hookUserLoginForm';
 
 $wgSamlSimpleSAMLphpPath = $IP.'/../../simplesamlphp';
 $wgSamlEntity = 'kth';
