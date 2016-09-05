@@ -13,14 +13,15 @@ class TmeitSamlAuth
 	/** @var SimpleSAML_Auth_Simple */
 	private static $auth;
 
-	private static function initialize() {
+	public static function initialize() {
 		if( null !== self::$auth )
-			return;
+			return self::$auth;
 
 		global $wgSamlSimpleSAMLphpPath, $wgSamlEntity;
 
 		require_once( $wgSamlSimpleSAMLphpPath.DIRECTORY_SEPARATOR.'lib'.DIRECTORY_SEPARATOR.'_autoload.php' );
 		self::$auth = new SimpleSAML_Auth_Simple( $wgSamlEntity );
+		return self::$auth;
 	}
 
 	/**

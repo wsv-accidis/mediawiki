@@ -5,6 +5,15 @@
  * By Wilhelm Svenselius (wilhelm.svenselius@gmail.com)
  * Inspired by the SimpleSamlAuth extension by Jørn Åne: https://www.mediawiki.org/wiki/Extension:SimpleSamlAuth
  * and the SAMLAuth extension by Piers Harding: https://www.mediawiki.org/wiki/Extension:SAMLAuth
+ *
+ * To use, register the extension and the settings provider in LocalSettings.php like so:
+ *
+ * require_once( "$IP/extensions/TmeitSamlAuth/TmeitSamlAuth.php" );
+ * $wgSessionProviders[TmeitSamlSessionProvider::class] =
+ *	[
+ *		'class' => TmeitSamlSessionProvider::class,
+ *		'args' => [ [ 'priority' => 100 ] ]
+ *	];
  */
 
 if( !defined( 'MEDIAWIKI' ) )
@@ -22,6 +31,7 @@ $dir = dirname( __FILE__ ).'/';
 $wgExtensionMessagesFiles['TmeitSamlAuth'] = $dir.'TmeitSamlAuth.i18n.php';
 
 $wgAutoloadClasses['TmeitSamlAuth'] = $dir.'TmeitSamlAuth.class.php';
+$wgAutoloadClasses['TmeitSamlSessionProvider'] = $dir.'TmeitSamlSessionProvider.php';
 
 $wgHooks['UserLoginForm'][] = 'TmeitSamlAuth::hookUserLoginForm';
 
