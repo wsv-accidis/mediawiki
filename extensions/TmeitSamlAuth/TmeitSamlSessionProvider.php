@@ -55,7 +55,7 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 
 	public function canChangeUser()
 	{
-		return false;
+		return true;
 	}
 
 	public function persistSession( \MediaWiki\Session\SessionBackend $session, WebRequest $request )
@@ -64,6 +64,11 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 
 	public function unpersistSession( WebRequest $request )
 	{
+		$auth = TmeitSamlAuth::initialize();
+
+		if( $auth->isAuthenticated() ) {
+			$auth->logout();
+		}
 	}
 
 	private function getUsername( array $attr )
