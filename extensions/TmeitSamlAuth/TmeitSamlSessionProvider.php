@@ -10,6 +10,8 @@ if( !defined( 'MEDIAWIKI' ) )
 
 class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 {
+	private static $isAutoCreationInProgress;
+
 	public function __construct( $params = [] )
 	{
 		parent::__construct();
@@ -19,36 +21,53 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 	{
 		$auth = TmeitSamlAuth::initialize();
 
-		if( !$auth->isAuthenticated() )
+		if( !$auth->isAuthenticated() || self::$isAutoCreationInProgress )
 			return null;
 
 		$attr = $auth->getAttributes();
 		$username = $this->getUsername( $attr );
 		$userId = User::idFromName( $username );
 
-		if( $userId )
+		// Attempt to auto-create this user if it does not yet exist
+		if( !$userId )
 		{
-			$userInfo = \MediaWiki\Session\UserInfo::newFromId( $userId );
+			// Prevent recursive calls to this method as AutoManager goes looking for a session
+			self::$isAutoCreationInProgress = true;
 
-			// Running this on every session init might upset some extensions - right now it's fine
-			\Hooks::run( 'UserLoggedIn', [ $userInfo->getUser() ] );
+			// Set up $wgUser as anon because for whatever reason AutoManager::autoCreateUser hates us otherwise
+			global $wgUser;
+			$wgUser = new User;
 
-			return new \MediaWiki\Session\SessionInfo( $this->priority, [
-				'forceHTTPS' => true,
-				'id' => $this->manager->generateSessionId(),
-				'idIsSafe' => true,
-				'persisted' => true,
-				'remembered' => true,
-				'provider' => $this,
-				'userInfo' => $userInfo->verified()
-			] );
+			// Actually create the user now
+			$user = User::newFromName( $username );
+			$status = \MediaWiki\Auth\AuthManager::singleton()->autoCreateUser(
+				$user,
+				\MediaWiki\Auth\AuthManager::AUTOCREATE_SOURCE_SESSION,
+				false
+			);
+
+			// Failed to auto-create the user for whatever reason
+			if( !$status->isGood() && !$status->isOK() )
+				return null;
+
+			self::$isAutoCreationInProgress = false;
+			$userId = User::idFromName( $username );
 		}
-		else
-		{
-			// TODO Automatically create user in MediaWiki if $userId is null but authenticated in SAML
-		}
 
-		return null;
+		$userInfo = \MediaWiki\Session\UserInfo::newFromId( $userId );
+
+		// TODO Running this on every session init is a bit bad for performance and might upset someone
+		\Hooks::run( 'UserLoggedIn', [ $userInfo->getUser() ] );
+
+		return new \MediaWiki\Session\SessionInfo( $this->priority, [
+			'forceHTTPS' => true,
+			'id' => $this->manager->generateSessionId(),
+			'idIsSafe' => true,
+			'persisted' => true,
+			'remembered' => true,
+			'provider' => $this,
+			'userInfo' => $userInfo->verified()
+		] );
 	}
 
 	public function persistsSessionId()
