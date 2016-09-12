@@ -30,6 +30,9 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 		{
 			$userInfo = \MediaWiki\Session\UserInfo::newFromId( $userId );
 
+			// Running this on every session init might upset some extensions - right now it's fine
+			\Hooks::run( 'UserLoggedIn', [ $userInfo->getUser() ] );
+
 			return new \MediaWiki\Session\SessionInfo( $this->priority, [
 				'forceHTTPS' => true,
 				'id' => $this->manager->generateSessionId(),

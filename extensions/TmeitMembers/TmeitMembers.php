@@ -60,7 +60,7 @@ $wgSpecialPageGroups['TmeitMemberList'] = 'tmeit';
 $wgSpecialPageGroups['TmeitTeamList'] = 'tmeit';
 $wgSpecialPageGroups['TmeitTitleList'] = 'tmeit';
 
-$wgHooks['UserLoginComplete'][] = 'TmeitHooks::initUser';
+$wgHooks['UserLoggedIn'][] = 'TmeitHooks::initUser';
 
 $wgResourceModules['ext.tmeit.members.imageareaselect'] = array(
     'position' => 'top',

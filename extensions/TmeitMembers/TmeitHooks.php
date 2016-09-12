@@ -7,9 +7,9 @@
 
 class TmeitHooks
 {
-	public static function initUser()
+	public static function initUser( User $user )
 	{
 		$memberSync = new TmeitMemberSync();
-		$memberSync->initCurrentUserInMediaWiki();
+		$memberSync->initUserInMediaWiki( $user );
 	}
 }

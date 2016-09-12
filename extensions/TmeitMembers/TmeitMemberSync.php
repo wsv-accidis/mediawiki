@@ -20,19 +20,18 @@ class TmeitMemberSync
      * =================================================================================================================
      */
 
-	public function initCurrentUserInMediaWiki()
+	public function initUserInMediaWiki( User $user )
 	{
-		global $wgUser;
-		$mwUserId = $wgUser->getId();
+		$mwUserId = $user->getId();
 
 		if( $mwUserId > 0 )
 		{
-			$tmeitUser = $this->db->userGetByName( strtolower( $wgUser->getName() ) );
+			$tmeitUser = $this->db->userGetByName( strtolower( $user->getName() ) );
 			if( FALSE !== $tmeitUser )
 			{
 				$this->setMediaWikiUserId( $tmeitUser, $mwUserId );
 				$this->setMediaWikiGroups( $tmeitUser, $mwUserId );
-				$this->setMediaWikiRealName( $tmeitUser, $mwUserId, $wgUser->getRealName() );
+				$this->setMediaWikiRealName( $tmeitUser, $mwUserId, $user->getRealName() );
 			}
 		}
 	}
@@ -47,7 +46,9 @@ class TmeitMemberSync
 		{
 			$this->setMediaWikiUserId( $tmeitUser, $mwUserId );
 			$this->setMediaWikiGroups( $tmeitUser, $mwUserId );
-			$this->setMediaWikiRealName( $tmeitUser, $mwUserId );
+
+			$mwRealName = $this->db->mwGetRealNameById( $mwUserId );
+			$this->setMediaWikiRealName( $tmeitUser, $mwUserId, $mwRealName );
 		}
 	}
 
@@ -63,9 +64,8 @@ class TmeitMemberSync
 		$this->db->mwSetTmeitUserGroups( $mwUserId, !$inactive, $tmeitUser['is_admin'] );
 	}
 
-	private function setMediaWikiRealName( $tmeitUser, $mwUserId )
+	private function setMediaWikiRealName( $tmeitUser, $mwUserId, $mwRealName )
 	{
-        $mwRealName = $this->db->mwGetRealNameById( $mwUserId );
 		if( 0 != strcmp( $tmeitUser['realname'], $mwRealName ) )
 			$this->db->mwSetUserRealName( $mwUserId, $tmeitUser['realname'] );
 	}
