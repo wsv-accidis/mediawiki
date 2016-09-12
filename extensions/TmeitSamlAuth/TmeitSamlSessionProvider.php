@@ -46,11 +46,12 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 				false
 			);
 
+			self::$isAutoCreationInProgress = false;
+
 			// Failed to auto-create the user for whatever reason
 			if( !$status->isGood() && !$status->isOK() )
 				return null;
 
-			self::$isAutoCreationInProgress = false;
 			$userId = User::idFromName( $username );
 		}
 
