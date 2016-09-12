@@ -518,6 +518,7 @@ class SpecialTmeitMemberEdit extends TmeitSpecialMemberPage
         return $str;
     }
 
+    // TODO Update this to use nondeprecated methods
     private function createMediaWikiUserOrSetPassword( $password )
     {
         $user = User::newFromName( $this->user['username'] );
