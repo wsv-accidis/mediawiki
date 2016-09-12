@@ -31,14 +31,14 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 		// Attempt to auto-create this user if it does not yet exist
 		if( !$userId )
 		{
-			// Prevent recursive calls to this method as AutoManager goes looking for a session
+			// Prevent recursive calls to this method as AuthManager goes looking for a session
 			self::$isAutoCreationInProgress = true;
 
-			// Set up $wgUser as anon because for whatever reason AutoManager::autoCreateUser hates us otherwise
+			// Set up $wgUser as anon because for whatever reason AuthManager::autoCreateUser hates us otherwise
 			global $wgUser;
 			$wgUser = new User;
 
-			// Actually create the user now
+			// Create the user for reals
 			$user = User::newFromName( $username );
 			$status = \MediaWiki\Auth\AuthManager::singleton()->autoCreateUser(
 				$user,
