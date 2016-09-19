@@ -63,9 +63,15 @@ $wgSpecialPageGroups['TmeitTitleList'] = 'tmeit';
 $wgHooks['UserLoggedIn'][] = 'TmeitHooks::initUser';
 
 $wgResourceModules['ext.tmeit.members.imageareaselect'] = array(
-    'position' => 'top',
-    'styles' => 'styles/imgareaselect-default.css',
-    'scripts' => ['scripts/jquery.imgareaselect.min.js', 'scripts/tmeitmemberimage.js'],
-    'remoteBasePath' => "$wgScriptPath/extensions/TmeitMembers",
-    'localBasePath' => "$IP/extensions/TmeitMembers"
+	'styles' => 'styles/imgareaselect-default.css',
+	'scripts' => 'scripts/jquery.imgareaselect.min.js',
+	'remoteBasePath' => "$wgScriptPath/extensions/TmeitMembers",
+	'localBasePath' => "$IP/extensions/TmeitMembers"
+);
+
+$wgResourceModules['ext.tmeit.members.specialtmeitmemberimage'] = array(
+	'scripts' => 'scripts/SpecialTmeitMemberImage.js',
+	'dependencies' => 'ext.tmeit.members.imageareaselect',
+	'remoteBasePath' => "$wgScriptPath/extensions/TmeitMembers",
+	'localBasePath' => "$IP/extensions/TmeitMembers"
 );

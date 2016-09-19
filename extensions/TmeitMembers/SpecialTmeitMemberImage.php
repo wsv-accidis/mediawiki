@@ -7,7 +7,7 @@
 
 class SpecialTmeitMemberImage extends TmeitSpecialMemberPage
 {
-	// Note - these must match values set on the script in scripts/tmeitmemberimage.js.
+	// Note - these must match values set on the script in scripts/SpecialTmeitMemberImage.js.
     const ImageHeight = 120;
     const ImageWidth = 110;
 
@@ -331,7 +331,7 @@ class SpecialTmeitMemberImage extends TmeitSpecialMemberPage
 
 			$this->hasUpload = true;
 			$this->uploadedImagePath = substr( $tempFileName, strlen( $IP ) );
-	        $this->getOutput()->addModules( 'ext.tmeit.members.imageareaselect' );
+	        $this->getOutput()->addModules( 'ext.tmeit.members.specialtmeitmemberimage' );
 		}
 		elseif( $this->hasField( 'image_filename' ) )
 		{
