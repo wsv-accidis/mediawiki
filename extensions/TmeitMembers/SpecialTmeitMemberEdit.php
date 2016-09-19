@@ -485,16 +485,6 @@ class SpecialTmeitMemberEdit extends TmeitSpecialMemberPage
 	<li><a href="<?=$this->listMembersUrl; ?>">Lista medlemmar</a></li>
 	<li><a href="<?=$this->getPageUrl( 'Internsidor' ); ?>">Internsidor...</a></li>
 </ul>
-
-<script type="text/javascript">
-<?
-    if( $this->saved ):
-?>
-    jQuery(document).ready(refreshUser);
-<?
-    endif;
-?>
-</script>
 <?
 	}
 
