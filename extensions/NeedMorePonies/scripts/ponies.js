@@ -4,7 +4,7 @@ var hazInitedPwnies = false;
 function togglePwnies() {
 	if(!hazInitedPwnies) {
 		var cfg = {
-			"baseurl": "http://panzi.github.com/Browser-Ponies/",
+			"baseurl": "https://panzi.github.com/Browser-Ponies/",
 			"fadeDuration": 500,
 			"fps": 25,
 			"speed": 3,
