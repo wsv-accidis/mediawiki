@@ -47,3 +47,9 @@ $wgSpecialPageGroups['TmeitExtEventEdit'] = 'tmeit';
 $wgSpecialPageGroups['TmeitExtEventList'] = 'tmeit';
 $wgSpecialPageGroups['TmeitReportEdit'] = 'tmeit';
 $wgSpecialPageGroups['TmeitReportSummary'] = 'tmeit';
+
+$wgResourceModules['ext.tmeit.events.specialtmeitevents'] = array(
+	'scripts' => ['scripts/SpecialTmeitEvents.js'],
+	'remoteBasePath' => "$wgScriptPath/extensions/TmeitEvents",
+	'localBasePath' => "$IP/extensions/TmeitEvents"
+);

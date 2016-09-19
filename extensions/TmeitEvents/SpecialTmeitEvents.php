@@ -8,7 +8,6 @@
 class SpecialTmeitEvents extends TmeitSpecialPage
 {
 	private $events;
-	private $firstEventId;
 
 	public function __construct()
 	{
@@ -19,16 +18,18 @@ class SpecialTmeitEvents extends TmeitSpecialPage
 	{
 		$this->events = $this->db->eventGetPublicList();
 
-		$this->firstEventId = $this->getIntField( 'id' );
-		if( 0 == $this->firstEventId && !empty( $this->events ) )
-			$this->firstEventId = key( $this->events );
+		$firstEventId = $this->getIntField( 'id' );
+		if( 0 == $firstEventId && !empty( $this->events ) )
+			$firstEventId = key( $this->events );
 
+		$output = $this->getOutput();
+		$output->addJsConfigVars( 'firstEventId', $firstEventId );
+		$output->addModules( 'ext.tmeit.events.specialtmeitevents' );
 		return true;
 	}
 
 	protected function render()
 	{
-		global $wgScriptPath;
 		if( empty( $this->events ) ):
 ?>
 <div id="tmeit-event-list">
@@ -54,7 +55,7 @@ class SpecialTmeitEvents extends TmeitSpecialPage
 				$inList = true;
 			endif;
 ?>
-		<li><a href="#" onclick="openEvent( <?=$id; ?> );"><?=htmlspecialchars( $event['title'] ); ?></a><? if( $this->isMember && !empty( $event['team_title'] ) ): ?> (<?=htmlspecialchars( $event['team_title'] ); ?>)<? endif; ?></li>
+		<li><a href="#" onclick="tmeit.openEvent( <?=$id; ?> );"><?=htmlspecialchars( $event['title'] ); ?></a><? if( $this->isMember && !empty( $event['team_title'] ) ): ?> (<?=htmlspecialchars( $event['team_title'] ); ?>)<? endif; ?></li>
 <?
 		endforeach;
 		if( $inList ) echo "	</ul>\n";
@@ -64,17 +65,6 @@ class SpecialTmeitEvents extends TmeitSpecialPage
 <p class="tmeit-post-script">
 	Du kan också hitta fester och pubbar i Stockholm på <a href="http://fester.nu">Fester.nu</a>.
 </p>
-
-<script type="text/javascript">
-	function openEvent( id ) {
-		var currentEvent = $('#tmeit-event-current');
-        currentEvent.removeClass('loaded')
-				.html('<img src="<?=$wgScriptPath; ?>/skins/tmeit/wait_icon.gif" alt="Laddar ..." />');
-        currentEvent.load('<?=$wgScriptPath; ?>/tmeit-jobs/AjaxEvent.php?id=' + id, function() { currentEvent.addClass('loaded'); });
-	}
-
-	$(document).ready(function() { openEvent( <?=$this->firstEventId; ?> ); });
-</script>
 <?
 	}
 
