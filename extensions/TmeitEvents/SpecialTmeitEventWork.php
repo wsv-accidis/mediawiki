@@ -115,20 +115,25 @@ class SpecialTmeitEventWork extends TmeitSpecialPage
             }
             else
                 $range = FALSE;
-			
+
 			$this->db->eventSaveWorker( $this->event['id'], $currentUserId, $working, $range, $comment );
 			$this->redirectToSpecial( 'TmeitEventWork', '/'.$this->event['id'].'?saved=1' );
 		}
 
 		$this->workers = self::splitWorkers( $this->workers );
-		$this->addJqueryUi();
+		$this->setupJs();
 		return true;
 	}
 
-    private function addJqueryUi()
+    private function setupJs()
     {
-	    global $wgOut;
-        $wgOut->addModules( 'jquery.ui.slider' );
+    	$out = $this->getOutput();
+		$out->addJsConfigVars( 'workOpts', array_keys( $this->optionsLong ) );
+		$out->addJsConfigVars( 'workMinHour', self::MinHour );
+		$out->addJsConfigVars( 'workMaxHour', self::MaxHour );
+		$out->addJsConfigVars( 'workInitMin', ( FALSE == $this->currentRange ? 2 : $this->currentRange[0] - self::MinHour ) );
+		$out->addJsConfigVars( 'workInitMax', ( FALSE == $this->currentRange ? self::MaxHour - self::MinHour - 2 : $this->currentRange[1] - self::MinHour ) );
+		$out->addModules( ['jquery.ui.slider', 'ext.tmeit.events.specialtmeiteventwork'] );
     }
 
 	private static function getTimelineImage( $imagesPath, $color, $i = 0 )
@@ -282,68 +287,6 @@ class SpecialTmeitEventWork extends TmeitSpecialPage
             </tr>
 		</tfoot>
 	</table>
-
-	<script type="text/javascript">
-	    var workOpts = <?=json_encode( array_keys( $this->optionsLong ) ); ?>;
-
-	    function tmeitHour(hr) {
-            if(hr >= 24) {
-                hr -= 24;
-            }
-            return ( hr < 10 ? '0' + hr : hr);
-	    }
-
-	    function tmeitSelectWorkOption(selectOpt) {
-	        workOpts.forEach(function(opt) {
-	            if(opt == selectOpt) {
-	                $('#tmeit-event-work-radio' + opt).addClass('tmeit-event-work-selected');
-	                $('#tmeit-event-work-description' + opt).addClass('tmeit-event-work-selected');
-	            } else {
-	                $('#tmeit-event-work-radio' + opt).removeClass('tmeit-event-work-selected');
-	                $('#tmeit-event-work-description' + opt).removeClass('tmeit-event-work-selected');
-	            }
-	        });
-
-	        if(selectOpt != <?=TmeitDb::WorkNo; ?>) {
-	            $('#tmeit-event-work-between').fadeIn();
-	        } else {
-	            $('#tmeit-event-work-between').hide();
-	        }
-	    }
-
-	    mw.loader.using( ['jquery.ui.slider'], function() {
-	        var offset = <?=self::MinHour; ?>;
-	        var range = <?=self::MaxHour; ?> - offset;
-	        var initMin = <?=( FALSE == $this->currentRange ? 2 : $this->currentRange[0] - self::MinHour ); ?>;
-	        var initMax = <?=( FALSE == $this->currentRange ? self::MaxHour - self::MinHour - 2 : $this->currentRange[1] - self::MinHour ); ?>;
-
-	        $('#work-from').val(initMin);
-	        $('#work-until').val(initMax);
-            $('#label-work-from').text(tmeitHour(offset + initMin) + ':00');
-            $('#label-work-until').text(tmeitHour(offset + initMax) + ':00');
-
-	        $("#tmeit-event-slider").slider({
-	            range: true,
-	            min: 0,
-	            max: range,
-	            values: [ initMin, initMax ],
-	            slide: function( e, ui ) {
-	                var low = ui.values[0], hi = ui.values[1];
-	                $('#work-from').val(low);
-	                $('#work-until').val(hi);
-	                $('#label-work-from').text(tmeitHour(offset + low) + ':00');
-	                $('#label-work-until').text(tmeitHour(offset + hi) + ':00');
-	                $('#work-has-range1').prop('checked', true);
-	            }
-	        });
-
-	        workOpts.forEach(function(opt) {
-                $('#working' + opt).change(function() {
-                    tmeitSelectWorkOption(opt);
-                });
-	        });
-	    });
-    </script>
 </form>
 <?
 	}

@@ -53,3 +53,9 @@ $wgResourceModules['ext.tmeit.events.specialtmeitevents'] = array(
 	'remoteBasePath' => "$wgScriptPath/extensions/TmeitEvents",
 	'localBasePath' => "$IP/extensions/TmeitEvents"
 );
+
+$wgResourceModules['ext.tmeit.events.specialtmeiteventwork'] = array(
+	'scripts' => 'scripts/SpecialTmeitEventWork.js',
+	'remoteBasePath' => "$wgScriptPath/extensions/TmeitEvents",
+	'localBasePath' => "$IP/extensions/TmeitEvents"
+);
