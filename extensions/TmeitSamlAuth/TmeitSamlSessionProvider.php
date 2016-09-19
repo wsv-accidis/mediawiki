@@ -8,17 +8,23 @@
 if( !defined( 'MEDIAWIKI' ) )
 	exit( -1 );
 
-class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
+class TmeitSamlSessionProvider extends \MediaWiki\Session\CookieSessionProvider
 {
 	private static $isAutoCreationInProgress;
 
 	public function __construct( $params = [] )
 	{
-		parent::__construct();
+		parent::__construct( [ 'priority' => \MediaWiki\Session\SessionInfo::MAX_PRIORITY ] );
 	}
 
 	public function provideSessionInfo( WebRequest $request )
 	{
+		// If there is a cookie session, use it
+		$cookieSession = parent::provideSessionInfo( $request );
+		if( null !== $cookieSession ) {
+			return $cookieSession;
+		}
+
 		$auth = TmeitSamlAuth::initialize();
 
 		if( !$auth->isAuthenticated() || self::$isAutoCreationInProgress )
@@ -57,7 +63,7 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 
 		$userInfo = \MediaWiki\Session\UserInfo::newFromId( $userId );
 
-		// TODO Running this on every session init is a bit bad for performance and might upset someone
+		// This will only run once per login, because on the next load the cookie session will take priority
 		\Hooks::run( 'UserLoggedIn', [ $userInfo->getUser() ] );
 
 		return new \MediaWiki\Session\SessionInfo( $this->priority, [
@@ -73,7 +79,7 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 
 	public function persistsSessionId()
 	{
-		return false;
+		return true;
 	}
 
 	public function canChangeUser()
@@ -83,6 +89,7 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 
 	public function persistSession( \MediaWiki\Session\SessionBackend $session, WebRequest $request )
 	{
+		return parent::persistSession( $session, $request );
 	}
 
 	public function unpersistSession( WebRequest $request )
@@ -92,6 +99,8 @@ class TmeitSamlSessionProvider extends \MediaWiki\Session\SessionProvider
 		if( $auth->isAuthenticated() ) {
 			$auth->logout();
 		}
+
+		parent::unpersistSession( $request );
 	}
 
 	private function getUsername( array $attr )
