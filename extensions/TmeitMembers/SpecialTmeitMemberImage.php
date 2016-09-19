@@ -7,9 +7,10 @@
 
 class SpecialTmeitMemberImage extends TmeitSpecialMemberPage
 {
-    const ImageAspectRatio = '11:12';
+	// Note - these must match values set on the script in scripts/tmeitmemberimage.js.
     const ImageHeight = 120;
     const ImageWidth = 110;
+
     const ImageQuality = 99;
     const ImagesPerRow = 6;
     const MaxFileSize = 2097152; // 2 MB
@@ -38,7 +39,7 @@ class SpecialTmeitMemberImage extends TmeitSpecialMemberPage
     protected function prepare( $par )
     {
         if( empty( $par ) || FALSE == ( $this->user = $this->db->userGetByName( $par ) ) )
-            throw new FatalError( 'Användaren kunde inte hittas.' );            
+            throw new FatalError( 'Användaren kunde inte hittas.' );
         $username = $this->user['username'];
 
 		if( $this->hasField( 'delete' ) )
@@ -177,35 +178,13 @@ class SpecialTmeitMemberImage extends TmeitSpecialMemberPage
     <input type="hidden" name="selection_w" id="selection_w" value="<?=self::ImageWidth; ?>" />
     <input type="hidden" name="selection_h" id="selection_h" value="<?=self::ImageHeight; ?>" />
 	<div>
-    	<input type="submit" value="Spara" />
+    	<input type="submit" value="Spara" class="tmeit-button" />
 	</div>
 	<img id="tmeit-uploaded-image" src="<?=$urlToImage; ?>" />
 	<div>
-    	<input type="submit" value="Spara" />
+    	<input type="submit" value="Spara" class="tmeit-button" />
     </div>
 </form>
-
-<script type="text/javascript">
-    $('#tmeit-uploaded-image').imgAreaSelect({
-        aspectRatio: '<?=self::ImageAspectRatio; ?>',
-        handles: 'corners',
-        minWidth: <?=self::ImageWidth; ?>,
-        minHeight: <?=self::ImageHeight; ?>,
-        persistent: true,
-        show: true,
-        x1: 0,
-        y1: 0,
-        x2: <?=self::ImageWidth; ?>,
-        y2: <?=self::ImageHeight; ?>,
-
-        onSelectEnd: function(img, selection) {
-            $('#selection_x').val(selection.x1);
-            $('#selection_y').val(selection.y1);
-            $('#selection_w').val(selection.width);
-            $('#selection_h').val(selection.height);
-        }
-    });
-</script>
 <?
     }
 
@@ -223,13 +202,13 @@ class SpecialTmeitMemberImage extends TmeitSpecialMemberPage
 <form id="tmeit-form" action="" method="post" enctype="multipart/form-data">
     <input type="hidden" name="MAX_FILE_SIZE" value="<?=self::MaxFileSize; ?>" />
 
-    <table class="wikitable tmeit-table tmeit-half-width">
+    <table class="tmeit-new-table tmeit-half-width" style="margin-top: 10px;">
         <tr>
             <td class="caption-column">
                 Ladda upp foto
             </td>
             <td class="field-column" style="padding-bottom: 10px">
-                <input name="image_upload" type="file" /><br />
+                <input name="image_upload" type="file" class="tmeit-button" /><br />
                 <ul style="padding-top: 10px">
                     <li>Maximal storlek <?=self::MaxFileSizeText; ?></li>
                     <li>Minsta upplösning <?=self::ImageWidth; ?> x <?=self::ImageHeight; ?> pixlar</li>
