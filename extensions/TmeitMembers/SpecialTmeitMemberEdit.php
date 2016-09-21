@@ -425,7 +425,7 @@ class SpecialTmeitMemberEdit extends TmeitSpecialMemberPage
                 Ange nytt lösenord
             </td>
             <td class="field-column">
-                <input type="password" class="short-text" name="password" value="" />
+                <input type="password" class="short-text" name="password" autocomplete="new-password" value="" />
                 <div class="field-hint" style="margin-top: 10px; margin-left: 0">
 					Lösenord kan inte visas, bara ändras. Minst <?=self::MinPasswordLength; ?> tecken.
 					Lösenordet används bara vid inloggning utan KTH-ID. För medlem som har KTH-ID behöver inget lösenord anges.
@@ -508,31 +508,30 @@ class SpecialTmeitMemberEdit extends TmeitSpecialMemberPage
         return $str;
     }
 
-    // TODO Update this to use nondeprecated methods
     private function createMediaWikiUserOrSetPassword( $password )
     {
-        $user = User::newFromName( $this->user['username'] );
-        if( !$user )
-        	return; // invalid username? shouldn't happen.
+		$user = User::newFromName( $this->user['username'] );
+		if( !$user )
+			return; // invalid username
 
-        $exists = ( 0 !== $user->idForName() );
-        $user->setInternalPassword( $password );
+		$status = \MediaWiki\Auth\AuthManager::singleton()->autoCreateUser(
+			$user,
+			\MediaWiki\Auth\AuthManager::AUTOCREATE_SOURCE_SESSION,
+			false
+		);
+
+		if( !$status->isGood() && !$status->isOK() )
+			return; // failed to create for some reason
+
+		$user = User::newFromName( $user->getName() );
 		$user->setEmail( $this->user['email'] );
 		$user->setRealName( $this->user['realname'] );
+		$user->saveSettings();
 
-        if( !$exists )
-        {
-            // Create user
-            $user->addToDatabase();
-            $user->saveSettings();
-            $user->addNewUserLogEntry();
-
-            // Update site stats
-            $ssu = new SiteStatsUpdate( 0, 0, 0, 0, 1 );
-            $ssu->doUpdate();
-        }
-        else
-            $user->saveSettings();
+		$user->changeAuthenticationData( [
+			'username' => $user->getName(),
+			'password' => $password,
+			'retype' => $password,
+		] );
     }
 }
-?>
