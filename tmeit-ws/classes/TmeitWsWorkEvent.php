@@ -1,5 +1,4 @@
 <?php
-
 /*
  * TMEIT Web Services
  *
@@ -8,7 +7,7 @@
 
 class TmeitWsWorkEvent extends TmeitWsPostService
 {
-	// Note: Keep in sync with TmeitWsWorkEvent
+	// Note: Keep in sync with SpecialTmeitEventWork
 	const MinHour = 8;
 	const MaxHour = 29;
 
