@@ -13,6 +13,7 @@ $dir = dirname( __FILE__ ).'/classes/';
 
 $wgAutoloadClasses['TmeitWsAttendExternalEvent'] = $dir.'TmeitWsAttendExternalEvent.php';
 $wgAutoloadClasses['TmeitWsGetEventDetails'] = $dir.'TmeitWsGetEventDetails.php';
+$wgAutoloadClasses['TmeitWsGetEventReport'] = $dir.'TmeitWsGetEventReport.php';
 $wgAutoloadClasses['TmeitWsGetEvents'] = $dir.'TmeitWsGetEvents.php';
 $wgAutoloadClasses['TmeitWsGetExternalEventDetails'] = $dir.'TmeitWsGetExternalEventDetails.php';
 $wgAutoloadClasses['TmeitWsGetExternalEvents'] = $dir.'TmeitWsGetExternalEvents.php';

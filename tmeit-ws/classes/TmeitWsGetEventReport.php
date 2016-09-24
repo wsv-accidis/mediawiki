@@ -6,7 +6,7 @@
  * By Wilhelm Svenselius (wilhelm.svenselius@gmail.com)
  */
 
-class TmeitWsGetEventDetails extends TmeitWsGetService
+class TmeitWsGetEventReport extends TmeitWsGetService
 {
 	public function __construct()
 	{
@@ -21,13 +21,21 @@ class TmeitWsGetEventDetails extends TmeitWsGetService
 		if( FALSE == ( $eventDetails = $this->db->eventGetById( $id ) ) )
 			return $this->finishRequest( self::buildError( 'Event not found', self::HttpNotFound ) );
 
-		$workers = $this->getWorkers( $this->db->eventGetWorkersById( $id ) );
+		$report = $this->db->reportGetByEventId( $id );
+		$hasReport = ( FALSE !== $report );
+		$workers = $this->getWorkers( $hasReport ? $report['workers'] : $this->db->reportGetWorkersByEvent( $id ) );
+		unset( $report['workers'] );
 
 		$this->setCacheControl( self::CacheOneMinute );
-		return $this->finishRequest( array(
-			'event' => $eventDetails,
+
+		$response = [
+			'is_reported' => $hasReport,
 			'workers' => $workers
-		) );
+		];
+		if( $hasReport )
+			$response['report'] = $report;
+
+		return $this->finishRequest( $response );
 	}
 
 	private function getWorkers( $workers )
@@ -38,19 +46,6 @@ class TmeitWsGetEventDetails extends TmeitWsGetService
 		{
 			$worker = $workers[$userId];
 			$worker['id'] = $userId;
-
-			$range = $worker['range'];
-			if( !empty( $range ) )
-			{
-				$worker['has_range'] = true;
-				$worker['range_start'] = $range[0];
-				$worker['range_end'] = $range[1];
-			}
-			else
-				$worker['has_range'] = false;
-
-			unset( $worker['range'] );
-
 			return $worker;
 		}, $userIds ) );
 

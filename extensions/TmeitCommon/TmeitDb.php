@@ -986,11 +986,6 @@ class TmeitDb
 		);
 	}
 
-	public function reportDelete( $reportId )
-	{
-		$this->db->query( $this->dbStrF( 'DELETE FROM {X0} WHERE id = {1} LIMIT 1', self::TableWorkReports, $reportId ) );
-	}
-
 	public function reportGetByEventId( $id )
 	{
 		$qr = $this->db->query( $this->dbStrF( 'SELECT r.id, r.reporter_id, u1.realname AS reporter_name, r.last_editor_id, u2.realname AS last_editor_name '
@@ -1006,19 +1001,12 @@ class TmeitDb
 			return FALSE;
 
 		return array(
-			'id'				=> $q['id'],
 			'reporter_id'		=> (int) $q['reporter_id'],
 			'reporter_name'		=> $q['reporter_name'],
 			'last_editor_id'	=> (int) $q['last_editor_id'],
 			'last_editor_name'	=> $q['last_editor_name'],
-			'workers'			=> $this->reportGetWorkersById( $q['id'] )
+			'workers'			=> $this->reportGetWorkersById( (int) $q['id'] )
 		);
-	}
-
-	public function reportGetIdByEvent( $eventId )
-	{
-		$qr = $this->db->query( $this->dbStrF( 'SELECT id FROM {X0} WHERE event_id = {1} LIMIT 1', self::TableWorkReports, $eventId ) );
-		return $this->dbGetValue( $qr, 'id', 0 );
 	}
 
 	public function reportGetWorkersByEvent( $eventId )
@@ -1043,6 +1031,12 @@ class TmeitDb
 		$qr->free();
 
 		return $workers;
+	}
+
+	private function reportGetIdByEvent( $eventId )
+	{
+		$qr = $this->db->query( $this->dbStrF( 'SELECT id FROM {X0} WHERE event_id = {1} LIMIT 1', self::TableWorkReports, $eventId ) );
+		return $this->dbGetValue( $qr, 'id', 0 );
 	}
 
 	private function reportGetWorkersById( $id )
