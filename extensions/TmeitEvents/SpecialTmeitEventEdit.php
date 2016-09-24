@@ -19,11 +19,6 @@ class SpecialTmeitEventEdit extends TmeitSpecialEventPage
 		parent::__construct( 'TmeitEventEdit', 'tmeit' );
 	}
 
-	private function eventIsNew()
-	{
-		return !isset( $this->event['id'] );
-	}
-
 	protected function prepare( $par )
 	{
 		if( empty( $par ) )
@@ -81,16 +76,16 @@ class SpecialTmeitEventEdit extends TmeitSpecialEventPage
 		return true;
 	}
 
-	protected function validateAccessEvent()
+	private function eventIsNew()
 	{
-		// Admins can always edit events
-		if( $this->isAdmin )
-			return true;
+		return !isset( $this->event['id'] );
+	}
 
-		// Team admins can edit their own team's events
-		global $wgUser;
-		return ( $this->event['team_id'] > 0 &&
-			$this->event['team_id'] == $this->db->userGetTeamAdminByMediaWikiUserId( $wgUser->getId() ) );
+	private function mayEditEventOrThrow( $event )
+	{
+		$userTeamAdmin = $this->db->userGetTeamAdminByMediaWikiUserId( $this->getUser()->getId() );
+		if( !$this->db->eventMayEdit( $event, $this->isAdmin, $userTeamAdmin ) )
+			throw new PermissionsError( 'tmeitadmin' );
 	}
 
 	protected function render()

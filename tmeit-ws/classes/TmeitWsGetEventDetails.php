@@ -21,6 +21,10 @@ class TmeitWsGetEventDetails extends TmeitWsGetService
 		if( FALSE == ( $eventDetails = $this->db->eventGetById( $id ) ) )
 			return $this->finishRequest( self::buildError( 'Event not found', self::HttpNotFound ) );
 
+		$user = $this->db->userGetByName( $this->db->userGetUsernameById( $this->userId ) );
+		$userTeamAdmin = $user['is_team_admin'] ? $user['team_id'] : 0;
+		$eventDetails['may_edit_report'] = $this->db->reportMayEdit( $eventDetails, $user['is_admin'], $userTeamAdmin );
+
 		$workers = $this->getWorkers( $this->db->eventGetWorkersById( $id ) );
 
 		$this->setCacheControl( self::CacheOneMinute );

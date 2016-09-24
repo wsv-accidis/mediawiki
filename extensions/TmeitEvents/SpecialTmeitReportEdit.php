@@ -46,7 +46,7 @@ class SpecialTmeitReportEdit extends TmeitSpecialEventPage
 		if( !$this->event['is_past'] )
 			throw new FatalError( 'Evenemanget har inte varit ännu.' );
 
-		$this->mayEdit = $this->mayEditReport( $this->event, $this->isAdminOfTeam );
+		$this->mayEdit = $this->db->reportMayEdit( $this->event, $this->isAdmin, $this->isAdminOfTeam );
 		$this->report = $this->db->reportGetByEventId( $eventId );
 		$this->hasReport = ( FALSE != $this->report );
 		$this->workers = $this->hasReport ? $this->report['workers'] : $this->db->reportGetWorkersByEvent( $eventId );

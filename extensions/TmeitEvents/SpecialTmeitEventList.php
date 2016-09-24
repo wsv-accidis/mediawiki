@@ -124,8 +124,8 @@ class SpecialTmeitEventList extends TmeitSpecialEventPage
 <?
 		foreach( $this->events as $eventId => $event ):
 			$mayWork = $this->mayWorkEvent( $event );
-			$mayEdit = $this->mayEditEvent( $event, $this->isAdminOfTeam );
-			$mayReport = $mayEdit && $event['is_past'] && !$event['is_reported'];
+			$mayEdit = $this->db->eventMayEdit( $event, $this->isAdmin, $this->isAdminOfTeam );
+			$mayReport = !$event['is_reported'] && $this->db->reportMayEdit( $event, $this->isAdmin, $this->isAdminOfTeam );
 			$hasReport = $event['is_reported'];
 			$mayDelete = $this->isAdmin;
 
@@ -203,7 +203,7 @@ class SpecialTmeitEventList extends TmeitSpecialEventPage
 <?
 		foreach( $this->lunches as $eventId => $event ):
 			$mayWork = $this->mayWorkEvent( $event );
-			$mayReport = !$event['is_reported'] && $event['is_past'] && $this->mayEditEvent( $event, $this->isAdminOfTeam );
+			$mayReport = !$event['is_reported'] && $this->db->reportMayEdit( $event, $this->isAdmin, $this->isAdminOfTeam );
 			$hasReport = $event['is_reported'];
 			$mayDelete = $this->isAdmin;
 
@@ -343,6 +343,11 @@ class SpecialTmeitEventList extends TmeitSpecialEventPage
 	}
 </script>
 <?
+	}
+
+	private function mayWorkEvent( $event )
+	{
+		return !$event['is_past'] && ( $event['workers_max'] > 0 || $event['workers_count'] > 0 );
 	}
 
 	private static function getDatesInWeek( $date )

@@ -317,12 +317,16 @@ class TmeitDb
 		return $rows;
 	}
 
-	private function eventGetWorkRange( $workFrom, $workUntil )
-    {
-        if( $workFrom < 0 || $workUntil < $workFrom )
-            return FALSE;
-        return array( $workFrom, $workUntil );
-    }
+	public function eventMayEdit( $event, $isAdmin, $isAdminOfTeam )
+	{
+		if( $isAdmin )
+			return true; // admins may always edit event
+		if( 0 == $event['team_id'] )
+			return false; // if there is no team assigned then don't bother checking team admin
+
+		// team admin of appropriate team may edit event
+		return $isAdminOfTeam == $event['team_id'];
+	}
 
 	public function eventRemoveWorker( $eventId, $userId )
 	{
@@ -389,6 +393,13 @@ class TmeitDb
 		$this->db->query( 'UPDATE '.self::TableEvents.' SET workers_count = ( '
 			.'SELECT COUNT(*) FROM '.self::TableEventsWorkers.' WHERE event_id = '.$this->dbAddQuotes( $eventId ).' AND working = '.$this->dbAddQuotes( self::WorkYes ).' ) '
 			.'WHERE id = '.$this->dbAddQuotes( $eventId ) );
+	}
+
+	private function eventGetWorkRange( $workFrom, $workUntil )
+	{
+		if( $workFrom < 0 || $workUntil < $workFrom )
+			return FALSE;
+		return array( $workFrom, $workUntil );
 	}
 
 	/*
@@ -1031,6 +1042,14 @@ class TmeitDb
 		$qr->free();
 
 		return $workers;
+	}
+
+	public function reportMayEdit( $event, $isAdmin, $isAdminOfTeam )
+	{
+		if( !$event['is_past'] )
+			return false; // may not report future events
+
+		return $this->eventMayEdit( $event, $isAdmin, $isAdminOfTeam );
 	}
 
 	private function reportGetIdByEvent( $eventId )
