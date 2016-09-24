@@ -46,7 +46,7 @@ class TmeitDb
 	const RefEvent = 1;
 	const RefExtEvent = 2;
 
-    const ServiceAuthKeyStrength = 56;
+    const ServiceAuthKeyStrength = 60;
     const ServiceAuthLimit = 5;
 
     const TableEvents = 'tmeit_events';
@@ -136,7 +136,6 @@ class TmeitDb
 
 	private static function generateRandomString( $length )
     {
-        // See http://php.net/manual/en/function.crypt.php
         $alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz123456890./';
         $alphabetLength = strlen( $alphabet );
 
@@ -1504,10 +1503,8 @@ class TmeitDb
 
     public function userCreateServiceAuth( $userId )
     {
-        // See http://php.net/manual/en/function.crypt.php
-        $salt = '$2y$10$'.self::generateRandomString( 22 );
         $key = self::generateRandomString( self::ServiceAuthKeyStrength );
-        $hashedKey = crypt( $key, $salt );
+        $hashedKey = password_hash( $key, PASSWORD_DEFAULT );
 
         $this->db->query( $this->dbStrF( 'INSERT INTO {X0} ( service_auth, user_id, created ) VALUES ( {1}, {2}, NOW() )',
             self::TableServiceAuth, $hashedKey, $userId ) );
@@ -1591,7 +1588,7 @@ class TmeitDb
         $keyList = $this->dbGetColumn( $qr );
 
         foreach( $keyList as $key )
-            if( $key === crypt( $serviceAuth, $key ) )
+            if( password_verify( $serviceAuth, $key ) )
                 return $userId;
 
         return 0;
