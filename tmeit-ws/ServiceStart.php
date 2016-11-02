@@ -22,6 +22,7 @@ $wgAutoloadClasses['TmeitWsGetMembers'] = $dir.'TmeitWsGetMembers.php';
 $wgAutoloadClasses['TmeitWsGetService'] = $dir.'TmeitWsGetService.php';
 $wgAutoloadClasses['TmeitWsPostService'] = $dir.'TmeitWsPostService.php';
 $wgAutoloadClasses['TmeitWsRegisterGcm'] = $dir.'TmeitWsRegisterGcm.php';
+$wgAutoloadClasses['TmeitWsReportEvent'] = $dir.'TmeitWsReportEvent.php';
 $wgAutoloadClasses['TmeitWsServiceBase'] = $dir.'TmeitWsServiceBase.php';
 $wgAutoloadClasses['TmeitWsUnregisterGcm'] = $dir.'TmeitWsUnregisterGcm.php';
 $wgAutoloadClasses['TmeitWsUploadMemberPhoto'] = $dir.'TmeitWsUploadMemberPhoto.php';

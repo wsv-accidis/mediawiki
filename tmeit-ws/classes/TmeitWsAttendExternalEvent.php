@@ -23,11 +23,11 @@ class TmeitWsAttendExternalEvent extends TmeitWsPostService
 	{
 		$eventId = (int) @$params[self::EventIdKey];
 		if( 0 == $eventId )
-			return $this->finishRequest( self::buildError( 'A required parameter is missing. Please pretend you have an API reference and use that.', self::HttpBadRequest ) );
+			return $this->finishRequest( self::buildMissingParameterError() );
 
 		$event = $this->db->extEventGetById( $eventId );
 		if( FALSE === $event || $event['is_past'] )
-			return $this->finishRequest( self::buildError( 'Event does not exist or changes are no longer allowed.', self::HttpForbidden ) );
+			return $this->finishRequest( self::buildError( 'Event does not exist or changes are no longer allowed.', self::HttpNotFound ) );
 
 		$attending = @$params[self::AttendingKey];
 		if( FALSE == $attending || !is_array( $attending ) )
@@ -44,7 +44,7 @@ class TmeitWsAttendExternalEvent extends TmeitWsPostService
 		$notes = @$attending[self::NotesKey];
 
 		if( FALSE === ( $dob = TmeitUtil::validateDate( $dob ) ) )
-			return $this->finishRequest( self::buildError( 'A required parameter is missing. Please pretend you have an API reference and use that.', self::HttpBadRequest ) );
+			return $this->finishRequest( self::buildMissingParameterError() );
 
 		$this->db->extEventAddOrUpdateAttendee( $eventId, $this->userId, $dob, $foodPrefs, $drinkPrefs, $notes );
 		$this->db->getDatabase()->commit();

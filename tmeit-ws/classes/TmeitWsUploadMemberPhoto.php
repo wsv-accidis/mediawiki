@@ -38,7 +38,7 @@ class TmeitWsUploadMemberPhoto extends TmeitWsPostService
 	{
 		$destUser = @$params[self::UploadToKey];
 		if( FALSE == $destUser || FALSE == ( $user = $this->db->userGetByName( $destUser ) ) )
-			return $this->finishRequest( self::buildError( 'A required parameter is missing or invalid. Please pretend you have an API reference and use that.', self::HttpBadRequest ) );
+			return $this->finishRequest( self::buildMissingParameterError() );
 		$this->userName = $user['username'];
 
 		$imageBytes = @$params[self::ImageBytesKey];
@@ -47,7 +47,7 @@ class TmeitWsUploadMemberPhoto extends TmeitWsPostService
 
 		$imageBytes = base64_decode( $imageBytes );
 		if( FALSE == $imageBytes )
-			return $this->finishRequest( self::buildError( 'A required parameter is missing. Please pretend you have an API reference and use that.', self::HttpBadRequest ) );
+			return $this->finishRequest( self::buildMissingParameterError() );
 
 		$this->tempPath = $this->writeTemporaryFile( $imageBytes );
 		if( !$this->validateImageUpload() )

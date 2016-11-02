@@ -26,7 +26,7 @@ class TmeitWsWorkEvent extends TmeitWsPostService
 	{
 		$eventId = (int) @$params[self::EventIdKey];
 		if( 0 == $eventId )
-			return $this->finishRequest( self::buildError( 'A required parameter is missing. Please pretend you have an API reference and use that.', self::HttpBadRequest ) );
+			return $this->finishRequest( self::buildMissingParameterError() );
 
 		$event = $this->db->eventGetById( $eventId );
 		if( FALSE === $event || $event['is_past'] )

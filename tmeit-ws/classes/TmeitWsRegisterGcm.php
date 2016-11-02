@@ -18,7 +18,7 @@ class TmeitWsRegisterGcm extends TmeitWsPostService
 	{
 		$registrationId = @$params[self::RegistrationIdKey];
 		if( empty( $registrationId ) )
-			return $this->finishRequest( self::buildError( 'A required parameter is missing. Please pretend you have an API reference and use that.', self::HttpBadRequest ) );
+			return $this->finishRequest( self::buildMissingParameterError() );
 
 		$this->doRegisterGcm( $this->userId, $registrationId );
 		return $this->finishRequest( array( self::SuccessKey => true ) );

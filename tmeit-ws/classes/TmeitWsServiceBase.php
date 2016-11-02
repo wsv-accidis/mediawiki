@@ -51,6 +51,11 @@ abstract class TmeitWsServiceBase
 		);
 	}
 
+	protected static function buildMissingParameterError()
+	{
+		return self::buildError( 'A required parameter is missing. Please pretend you have an API reference and use that.', self::HttpBadRequest );
+	}
+
 	protected function finishRequest( $obj )
 	{
 		$json = json_encode( $obj );

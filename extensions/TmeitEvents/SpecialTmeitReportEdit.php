@@ -7,8 +7,6 @@
 
 class SpecialTmeitReportEdit extends TmeitSpecialEventPage
 {
-	const MaxEditableAge = 180; // 6 months
-
 	private $event;
 	private $isAdminOfTeam;
 	private $isSaved;
@@ -43,8 +41,6 @@ class SpecialTmeitReportEdit extends TmeitSpecialEventPage
 		$eventId = (int) $par;
 		if( FALSE == ( $this->event = $this->db->eventGetById( $eventId ) ) )
 			throw new FatalError( 'Evenemanget kunde inte hittas.' );
-		if( !$this->event['is_past'] )
-			throw new FatalError( 'Evenemanget har inte varit ännu.' );
 
 		$this->mayEdit = $this->db->reportMayEdit( $this->event, $this->isAdmin, $this->isAdminOfTeam );
 		$this->report = $this->db->reportGetByEventId( $eventId );
@@ -54,10 +50,6 @@ class SpecialTmeitReportEdit extends TmeitSpecialEventPage
 		// If you're not an admin or a team lead, you may only view existing reports
 		if( !$this->hasReport && !$this->mayEdit )
 			throw new PermissionsError( 'tmeitadmin' );
-
-		// Don't allow events older than a certain age to be reported except by admins
-		if( $this->mayEdit && !$this->isAdmin && $this->db->eventGetAgeById( $eventId ) > self::MaxEditableAge )
-			$this->mayEdit = false;
 
 		if( $this->wasPosted() )
 		{

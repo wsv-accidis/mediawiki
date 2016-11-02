@@ -13,6 +13,7 @@ class TmeitDb
 
 	const EventRegular = 0;
 	const EventLunch = 1;
+	const EventMaxEditableAge = 180; // 6 months
 
 	const ExtEventLogAttend = 10;
 	const ExtEventLogUnattend = 11;
@@ -157,19 +158,6 @@ class TmeitDb
 	 * =================================================================================================================
 	 */
 
-	public function eventGetAgeById( $id )
-	{
-		$qr = $this->db->query( $this->dbStrF( 'SELECT DATEDIFF(NOW(), starts_at) AS age FROM {X0} WHERE id = {1}', self::TableEvents, $id ) );
-		$q = $qr->fetchRow();
-		$qr->free();
-
-		if( NULL == $q )
-			return FALSE;
-
-		// Note - this value is in age, and negative for future events
-		return (int) $q['age'];
-	}
-
 	public function eventDelete( $id )
 	{
 		$this->db->query( 'DELETE FROM '.self::TableEvents.' WHERE id = '.$this->dbAddQuotes( $id ).' LIMIT 1' );
@@ -178,7 +166,7 @@ class TmeitDb
 
 	public function eventGetById( $id )
 	{
-		$qr = $this->db->query( "SELECT id, title, location, DATE_FORMAT( starts_at, '%Y-%m-%d %H:%i' ) AS starts_at, body, external_url, team_id, is_hidden, type, workers_max, CURRENT_DATE() > DATE( starts_at ) AS is_past "
+		$qr = $this->db->query( "SELECT id, title, location, DATE_FORMAT(starts_at, '%Y-%m-%d %H:%i') AS starts_at_fmt, DATEDIFF(NOW(), starts_at) AS age, body, external_url, team_id, is_hidden, type, workers_max, CURRENT_DATE() > DATE( starts_at ) AS is_past "
 				.'FROM '.self::TableEvents.' '
 				.'WHERE id = '.$this->dbAddQuotes( $id ).' LIMIT 1' );
 		$q = $qr->fetchRow();
@@ -191,7 +179,8 @@ class TmeitDb
 			'id' 			=> (int) $q['id'],
 			'title'			=> $q['title'],
 			'location'		=> $q['location'],
-			'starts_at'		=> $q['starts_at'],
+			'starts_at'		=> $q['starts_at_fmt'],
+			'age'			=> (int) $q['age'],
 			'body'			=> $q['body'],
 			'external_url'	=> $q['external_url'],
 			'team_id'		=> (int) $q['team_id'],
@@ -204,7 +193,7 @@ class TmeitDb
 
 	public function eventGetList( $type = self::EventRegular, $limit = 20 )
 	{
-		$qr = $this->db->query( "SELECT e.id, e.title, e.location, DATE( e.starts_at ) AS start_date, DATE_FORMAT( e.starts_at, '%H:%i' ) AS start_time, e.workers_count, e.workers_max, t.id AS team_id, t.title AS team_title, CURRENT_DATE() > DATE( starts_at ) AS is_past, "
+		$qr = $this->db->query( "SELECT e.id, e.title, e.location, DATE(e.starts_at) AS start_date, DATE_FORMAT(e.starts_at, '%H:%i') AS start_time, DATEDIFF(NOW(), e.starts_at) AS age, e.workers_count, e.workers_max, t.id AS team_id, t.title AS team_title, CURRENT_DATE() > DATE(starts_at) AS is_past, "
 				.'EXISTS ( SELECT * FROM '.self::TableWorkReports.' AS w WHERE w.event_id = e.id ) AS is_reported '
 				.'FROM '.self::TableEvents.' AS e LEFT JOIN '.self::TableTeams.' AS t ON e.team_id = t.id '
 				.'WHERE e.type = '.$this->dbAddQuotes( $type ).' '
@@ -217,6 +206,7 @@ class TmeitDb
 				'location' 		=> $q['location'],
 				'start_date' 	=> $q['start_date'],
 				'start_time' 	=> $q['start_time'],
+				'age'			=> (int) $q['age'],
 				'workers_count' => (int) $q['workers_count'],
 				'workers_max'	=> (int) $q['workers_max'],
 				'team_id'		=> (int) $q['team_id'],
@@ -323,9 +313,10 @@ class TmeitDb
 			return true; // admins may always edit event
 		if( 0 == $event['team_id'] )
 			return false; // if there is no team assigned then don't bother checking team admin
+		if( $isAdminOfTeam != $event['team_id'] ) // only team admin of appropriate team may edit event
+			return false;
 
-		// team admin of appropriate team may edit event
-		return $isAdminOfTeam == $event['team_id'];
+		return true;
 	}
 
 	public function eventRemoveWorker( $eventId, $userId )
@@ -1048,6 +1039,8 @@ class TmeitDb
 	{
 		if( !$event['is_past'] )
 			return false; // may not report future events
+		if( !$isAdmin && $event['age'] > self::EventMaxEditableAge )
+			return false; // only admins may edit reports for old events
 
 		return $this->eventMayEdit( $event, $isAdmin, $isAdminOfTeam );
 	}
@@ -1349,12 +1342,9 @@ class TmeitDb
         return $this->dbGetColumn( $qr );
     }
 
-	public function userGetSimpleById( $id )
+	public function userGetAdminRightsById( $id )
 	{
-		$qr = $this->db->query( 'SELECT u.realname, g.title AS group_title, t.title AS team_title FROM '.self::TableUsers.' AS u '
-			.'LEFT JOIN '.self::TableGroups.' AS g ON u.group_id = g.id '
-			.'LEFT JOIN '.self::TableTeams.' AS t ON u.team_id = t.id '
-			.'WHERE u.id = '.$this->dbAddQuotes( $id ).' LIMIT 1' );
+		$qr = $this->db->query( 'SELECT is_admin, is_team_admin, team_id FROM '.self::TableUsers.' WHERE id = '.$this->dbAddQuotes( $id ).' LIMIT 1' );
 		$q = $qr->fetchRow();
 		$qr->free();
 
@@ -1362,10 +1352,11 @@ class TmeitDb
 			return FALSE;
 
 		return array(
-			'id'			=> (int) $id,
-			'realname'		=> $q['realname'],
-			'group_title'	=> $q['group_title'],
-			'team_title'	=> $q['team_title'] );
+			'is_admin' => (bool) $q['is_admin'],
+			'is_team_admin' => (bool) $q['is_team_admin'],
+			'is_admin_of_team' => (int)( $q['is_team_admin'] ? $q['team_id'] : 0 ),
+			'team_id' => (int) $q['team_id'],
+		);
 	}
 
 	public function userGetByName( $username )
@@ -1433,6 +1424,25 @@ class TmeitDb
 		$qr->free();
 
 		return $rows;
+	}
+
+	public function userGetSimpleById( $id )
+	{
+		$qr = $this->db->query( 'SELECT u.realname, g.title AS group_title, t.title AS team_title FROM '.self::TableUsers.' AS u '
+			.'LEFT JOIN '.self::TableGroups.' AS g ON u.group_id = g.id '
+			.'LEFT JOIN '.self::TableTeams.' AS t ON u.team_id = t.id '
+			.'WHERE u.id = '.$this->dbAddQuotes( $id ).' LIMIT 1' );
+		$q = $qr->fetchRow();
+		$qr->free();
+
+		if( NULL == $q )
+			return FALSE;
+
+		return array(
+			'id'			=> (int) $id,
+			'realname'		=> $q['realname'],
+			'group_title'	=> $q['group_title'],
+			'team_title'	=> $q['team_title'] );
 	}
 
 	public function userGetTeamAdminByMediaWikiUserId( $mwUserId )
