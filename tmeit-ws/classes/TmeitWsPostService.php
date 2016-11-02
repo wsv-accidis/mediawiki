@@ -13,7 +13,7 @@ abstract class TmeitWsPostService extends TmeitWsServiceBase
 	{
 		if( self::HttpPost !== $_SERVER['REQUEST_METHOD'] )
 			return $this->finishRequest( self::buildError( 'Invalid method. Please use POST.', self::HttpBadRequest ) );
-		if( substr( $_SERVER['CONTENT_TYPE'], 0, strlen( self::JsonContentType ) ) !== self::JsonContentType )
+		if( !isset( $_SERVER['CONTENT_TYPE'] ) || substr( $_SERVER['CONTENT_TYPE'], 0, strlen( self::JsonContentType ) ) !== self::JsonContentType )
 			return $this->finishRequest( self::buildError( 'Request must have JSON body and content type.', self::HttpBadRequest ) );
 
 		$params = json_decode( file_get_contents( 'php://input' ), true );
