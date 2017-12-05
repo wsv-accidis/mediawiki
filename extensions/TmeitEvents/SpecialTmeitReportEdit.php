@@ -28,7 +28,12 @@ class SpecialTmeitReportEdit extends TmeitSpecialEventPage
 			50 => '4h',
 			75 => '6h',
 			100 => '8h',
-			125 => '>10h'
+			125 => '10h',
+			150 => '12h',
+			175 => '14h',
+			200 => '16h',
+			225 => '18h',
+			250 => '>=20h'
 		);
 	}
 
