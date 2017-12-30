@@ -82,8 +82,8 @@ class TmeitBadges
             new self( self::MegaMan, "MegaMan.png", "ExMästare", "Har varit Mästare i TMEIT" ),
             new self( self::Computer, "Computer.png", "Webb*", "Har varit webbprao/marskalk/vraq i TMEIT" ),
             new self( self::Junk, "Junk.png", "Junk*", "Har varit junkprao/marskalk/vraq i TMEIT" ),
-            new self( self::Gourmet, "Gourmet,png", "Gourmet*", "Har varit gourmetprao/marskalk/vraq i TMEIT" ),
-            new self( self::Pajas, "Trash.png", "Pajas", "") // For "special" people <3
+            new self( self::Gourmet, "Gourmet.png", "Gourmet*", "Har varit gourmetprao/marskalk/vraq i TMEIT" ),
+            new self( self::Pajas, "Trash.png", "Pajas", ""), // For "special" people <3
 
 			// Leagues
 			new self( self::NoLeague, "NoLeague.png", "No league", "No league ({EXP} poäng)", true ),
