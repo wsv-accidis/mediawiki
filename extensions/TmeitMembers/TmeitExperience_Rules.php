@@ -143,6 +143,9 @@ class TmeitOldTitlesRule extends TmeitAutoExperienceRule
 {
     private $wasMaster;
     private $wasWebb;
+    private $wasJunk;
+    private $wasGourmet;
+    private $wasPajas;
 
     public function prepare( $user )
     {
@@ -153,6 +156,12 @@ class TmeitOldTitlesRule extends TmeitAutoExperienceRule
                 $this->wasMaster = true;
             if( FALSE !== stripos( $title, 'web' ) )
                 $this->wasWebb = true;
+            if( FALSE !== stripos( $title, 'junk' ) )
+                $this->wasJunk = true;
+            if( FALSE !== stripos( $title, 'gourmet' ) )
+                $this->wasGourmet = true;
+            if( FALSE !== stripos( $title, 'pajas' ) )
+                $this->wasPajas = true;
         }
     }
 
@@ -163,6 +172,12 @@ class TmeitOldTitlesRule extends TmeitAutoExperienceRule
             $badges[] = TmeitBadges::MegaMan;
         if( $this->wasWebb )
             $badges[] = TmeitBadges::Computer;
+        if( $this->wasJunk )
+            $badges[] = TmeitBadges::Junk;
+        if( $this->wasGourmet )
+            $badges[] = TmeitBadges::Gourmet;
+        if( $this->wasPajas )
+            $badges[] = TmeitBadges::Pajas;
         return $badges;
     }
 }
