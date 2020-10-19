@@ -772,7 +772,7 @@ if ( !defined( 'MW_NO_SESSION' ) && !$wgCommandLineMode ) {
 		( $session->isPersistent() || $session->shouldRememberUser() )
 	) {
 		// Start the PHP-session for backwards compatibility
-		session_id( $session->getId() );
+		@session_id( $session->getId() );
 		MediaWiki\quietCall( 'session_start' );
 	}
 
